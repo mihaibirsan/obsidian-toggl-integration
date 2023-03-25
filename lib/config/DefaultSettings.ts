@@ -7,6 +7,7 @@ export const DEFAULT_SETTINGS: PluginSettings = {
   statusBarNoEntryMesssage: "-",
   statusBarPrefix: "Timer: ",
   statusBarShowProject: false,
+  parseMarkdown: false,
   updateInRealTime: true,
   workspace: { id: "none", name: "None selected" },
 };
