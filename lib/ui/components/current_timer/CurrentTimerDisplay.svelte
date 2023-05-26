@@ -1,11 +1,8 @@
 <script lang="ts">
   import CurrentTimerStopButton from "./CurrentTimerStopButton.svelte";
   import CurrentTimerStartButton from "./CurrentTimerStartButton.svelte";
-  import millisecondsToTimeString, {
-    secondsToTimeString,
-  } from "lib/util/millisecondsToTimeString";
+  import { secondsToTimeString } from "lib/util/millisecondsToTimeString";
   import TimerTag from "./TimerTag.svelte";
-  import type { TimeEntry } from "lib/model/Report-v3";
   import type { CurrentTimer } from "lib/stores/currentTimer";
   import { renderMarkdown } from "lib/util/renderMarkdown";
   import { settingsStore } from "lib/util/stores";
@@ -36,13 +33,19 @@
       <div id="details" class="timer-details is-flex is-align-items-center">
         <div
           class="timer-project-circle mr-2"
+          data-testid="project-circle"
           style:background-color={timer.$project?.color ?? "var(--text-muted)"}
         />
         <span
           class="timer-project-name"
           style:color={timer.$project?.color ?? "var(--text-muted)"}
-          >{timer.$project.name}</span
         >
+          {#if $settingsStore.parseMarkdown}
+            {@html renderMarkdown(timer.$project?.name ?? "(No project)")}
+          {:else}
+            {timer.$project?.name ?? "(No project)"}
+          {/if}
+        </span>
         <span class="divider-bullet mx-1">•</span>
         <span class="timer-duration">{secondsToTimeString(duration)}</span>
       </div>
