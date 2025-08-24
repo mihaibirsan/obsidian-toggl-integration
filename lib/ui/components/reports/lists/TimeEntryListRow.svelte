@@ -2,8 +2,15 @@
   import type { ReportListItem } from "./types";
   import TimerTag from "../../current_timer/TimerTag.svelte";
   import { secondsToTimeString } from "lib/util/millisecondsToTimeString";
+  import { Component } from "obsidian";
+  import { getContext } from "svelte";
   import { renderMarkdown } from "lib/util/renderMarkdown";
   import { settingsStore } from "lib/util/stores";
+
+  const component: Component = getContext("component");
+  if (!component) {
+    console.error('TimeEntryListRow: "component" context is undefined');
+  }
 
   export let data: ReportListItem;
   export let showProject: boolean;
@@ -28,8 +35,8 @@
       </div>
     {/if}
     <span class="mr-2">
-      {#if $settingsStore.parseMarkdown}
-        {@html renderMarkdown(data.name)}
+      {#if component && $settingsStore.parseMarkdown}
+        {@html renderMarkdown(data.name, component)}
       {:else}
         {data.name}
       {/if}
